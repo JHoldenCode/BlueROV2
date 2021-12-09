@@ -1,0 +1,1 @@
+Launch files for programs are very simple and look almost identical to each other. The only thing that changes is the type (which is the name of the python file) and the name (which is the name of the node you want to create - can be anything).

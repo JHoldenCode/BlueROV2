@@ -1,0 +1,6 @@
+I do not use this launch file much in my testing, but it was useful to initially upload the rexrov2 to a chosen world.
+This file is already present when installing rexrov2, but I made some edits found at:
+
+https://github.com/FletcherFT/rexrov2/commit/a79da7d7cc7914dfa567ba86ca1af105482cf623
+
+in order to fix it.

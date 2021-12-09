@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+
+import rospy
+from geometry_msgs.msg import Twist
+from sensor_msgs.msg import Range
+
+
+def callback1(distance):
+    pub = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
+    vel.linear.x = 1
+    vel.angular.z = .12
+    if distance.range < 4:
+        vel.angular.z = 0
+    pub.publish(vel)
+
+    
+
+
+def navigate():
+    rospy.init_node('navigate_cylinder_counter_clockwise', anonymous=True)
+
+
+
+    #/dvl_sonar1 because that captures the distance to the left of rexrov2
+    rospy.Subscriber('/rexrov2/dvl_sonar1', Range, callback1)
+
+    rospy.spin()
+
+
+
+if __name__ == '__main__':
+    try:
+        navigate()
+    except rospy.ROSInterruptException:
+        pass

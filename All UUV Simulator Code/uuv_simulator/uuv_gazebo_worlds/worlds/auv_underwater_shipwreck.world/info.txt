@@ -1,0 +1,1 @@
+This is the world file that is used whenever a shipwreck is needed. I chose to base it off the auv_underwater_world because the water is the clearest and I thought that the current would effect my programs the least.

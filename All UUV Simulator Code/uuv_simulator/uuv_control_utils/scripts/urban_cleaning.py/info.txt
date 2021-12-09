@@ -1,0 +1,1 @@
+This program uses my own waypoint system to clean the ship. It does more of a rectangular motion around the ship, so it is able to get much closer than the cylindrical or hemispheric paths can get. This program was created before I had the program to automatically create the refined list so I do manually append all of the points in this file.

@@ -1,0 +1,1 @@
+Same as calculating the arguments for the shipwreck, but the constants of the sea floor and leniency have changed.

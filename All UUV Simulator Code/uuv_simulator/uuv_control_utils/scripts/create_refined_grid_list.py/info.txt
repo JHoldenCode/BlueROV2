@@ -1,0 +1,1 @@
+This program takes all of the refined tuples obtained from the survey_wreck (I use refined to mean any point that represents a point on the ship and not the sea floor - above -78 on the z coordinate), and changes them into my Point class to be used for other programs.

@@ -1,0 +1,1 @@
+Waypoint files look the same. The only difference between them is the .yaml file you set as the filename and the interpolator that you set. I have only used the linear and cubic interpolators.

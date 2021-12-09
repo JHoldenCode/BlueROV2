@@ -1,0 +1,1 @@
+This file contains the waypoints that form a cylinder around the sunken ship. There are 16 points per level and 4 levels in total. These points were calculated with a program that requires the center of the ship and the radius of the cylinder.

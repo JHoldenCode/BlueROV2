@@ -1,0 +1,2 @@
+Most of the launch files in this folder are the same except for the specific program I am launching that I want to test (2nd to last block of code)
+and the position and orientation that the robot starts at (2nd block of code).

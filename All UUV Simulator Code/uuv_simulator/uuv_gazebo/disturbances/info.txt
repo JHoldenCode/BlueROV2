@@ -1,0 +1,9 @@
+There are multiple different types of disturbances that can affect the rexrov:
+
+current
+wrench
+thruster_state
+thruster_efficiency
+propeller_efficiency
+
+I only ever tested these out. They did not prove helpful in any of my programs.

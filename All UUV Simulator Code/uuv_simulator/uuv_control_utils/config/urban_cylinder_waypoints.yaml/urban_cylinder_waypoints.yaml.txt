@@ -1,0 +1,349 @@
+inertial_frame_id: world
+waypoints:
+  -
+    point: [-24.0, -39.0, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -32.8770650822, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -27.686291501, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -24.2179274798, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -23.0, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -24.2179274798, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -27.686291501, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -32.8770650822, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-56.0, -39.0, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -45.1229349178, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -50.313708499, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -53.7820725202, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -55.0, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -53.7820725202, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -50.313708499, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -45.1229349178, -76]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-24.0, -39.0, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -32.8770650822, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -27.686291501, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -24.2179274798, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -23.0, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -24.2179274798, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -27.686291501, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -32.8770650822, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-56.0, -39.0, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -45.1229349178, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -50.313708499, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -53.7820725202, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -55.0, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -53.7820725202, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -50.313708499, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -45.1229349178, -73]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-24.0, -39.0, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -32.8770650822, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -27.686291501, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -24.2179274798, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -23.0, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -24.2179274798, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -27.686291501, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -32.8770650822, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-56.0, -39.0, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -45.1229349178, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -50.313708499, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -53.7820725202, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -55.0, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -53.7820725202, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -50.313708499, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -45.1229349178, -70]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-24.0, -39.0, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -32.8770650822, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -27.686291501, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -24.2179274798, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -23.0, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -24.2179274798, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -27.686291501, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -32.8770650822, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-56.0, -39.0, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-54.7820725202, -45.1229349178, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-51.313708499, -50.313708499, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-46.1229349178, -53.7820725202, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-40.0, -55.0, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-33.8770650822, -53.7820725202, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-28.686291501, -50.313708499, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-25.2179274798, -45.1229349178, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+  -
+    point: [-24.0, -39.0, -67]
+    max_forward_speed: 1.5
+    heading: 1.57
+    use_fixed_heading: False
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

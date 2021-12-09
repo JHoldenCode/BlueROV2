@@ -1,0 +1,1 @@
+This program knows the location of its goal and has to avoid a big reactor that is blocking its way. The environment is not known, so it uses its sonar in real time to avoid the reactor.

@@ -1,0 +1,50 @@
+#!/usr/bin/env python
+
+import math
+
+class Point:
+    #for initializing point based on robot's information
+    #args: rob_x, rob_y, rob_z, sonar_distance, sonar_angle, orientation
+    def __init__(self, *args):
+        if len(args) == 6:
+            if args[5] == 0:
+                self.x = args[3] * math.sin(args[4]) + args[0]
+                self.y = args[1]
+                self.z = args[2] - args[3] * math.cos(args[4])
+            elif args[5] == 3.14:
+                self.x = args[0] - args[3] * math.sin(args[4])
+                self.y = args[1]
+                self.z = args[2] - args[3] * math.cos(args[4])
+            elif args[5] == 1.57:
+                self.x = args[0]
+                self.y = args[3] * math.sin(args[4]) + args[1]
+                self.z = args[2] - args[3] * math.cos(args[4])
+            elif args[5] == -1.57:
+                self.x = args[0]
+                self.y = args[1] - args[3] * math.sin(args[4])
+                self.z = args[2] - args[3] * math.cos(args[4])
+            else:
+                print("Error: not a valid orientation")
+
+        #for initializing point based on known values
+        #args: x, y, z
+        elif len(args) == 3:
+            self.x = args[0]
+            self.y = args[1]
+            self.z = args[2]
+
+        #for intializing point around a hemisphere
+        #args: height, hemisphere_radius, center_of_ship_z, angle
+        elif len(args) == 4:
+            height = args[0] - args[2]
+            horizontal_radius = math.sqrt(args[1] * args[1] - height * height)
+            self.x = -39 + horizontal_radius * math.cos(args[3])
+            self.y = -39 + horizontal_radius * math.sin(args[3])
+            self.z = args[0]
+
+
+        else:
+            print("Error: incorrect # of args")
+
+    def display_point(self):
+        print('(' + str(self.x) + ', ' + str(self.y) + ', ' + str(self.z) + ')')

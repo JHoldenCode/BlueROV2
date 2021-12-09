@@ -1,0 +1,200 @@
+#!/usr/bin/env python
+
+import rospy
+import math
+from point import Point
+from geometry_msgs.msg import Twist
+from uuv_control_msgs.msg import TrajectoryPoint
+import create_refined_grid_list
+
+waypoints = []
+completed = 0
+
+need_to_twist = True
+
+center_of_ship_x = -39
+center_of_ship_y = -41
+center_of_ship_z = -78
+
+pub = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+
+
+
+def pose_callback(pose):
+    global completed
+    global need_to_twist
+
+    #set goal
+    goal_x = waypoints[completed].x
+    goal_y = waypoints[completed].y
+    goal_z = waypoints[completed].z
+
+    #set pose
+    pose_x = pose.pose.position.x
+    pose_y = pose.pose.position.y
+    pose_z = pose.pose.position.z
+
+    vel = Twist()
+    speed_factor = 1
+
+    #set cmd_vels
+    vel.linear.x = 0
+    vel.linear.y = 0
+    vel.linear.z = 0
+    vel.angular.z = 0
+
+    
+
+    t3 = 2.0 * (pose.pose.orientation.w * pose.pose.orientation.z + pose.pose.orientation.x * pose.pose.orientation.y)
+    t4 = 1.0 - 2.0 * (pose.pose.orientation.y * pose.pose.orientation.y + pose.pose.orientation.z * pose.pose.orientation.z)
+    curr_angle = math.atan2(t3, t4)
+
+    x_dist = goal_x - pose_x
+    y_dist = goal_y - pose_y
+
+    #calculate goal angle
+    if x_dist < .5 and x_dist > -.5:
+        if y_dist > .5:
+            goal_angle = 1.57
+        elif y_dist < .5:
+            goal_angle = -1.57
+    elif y_dist < .5 and y_dist > -.5:
+        if x_dist > .5:
+            goal_angle = 0
+        elif x_dist < .5:
+            goal_angle = 3.14
+    elif x_dist >= 0 and y_dist >= 0:
+        goal_angle = math.atan(y_dist / x_dist)
+    elif x_dist < 0 and y_dist >= 0:
+        goal_angle = 3.14 - math.atan(y_dist / (-x_dist))
+    elif x_dist < 0 and y_dist < 0:
+        goal_angle = -1 * (3.14 - math.atan((-y_dist) / (-x_dist)))
+    else:
+        goal_angle = -1 * math.atan((-y_dist) / x_dist)
+
+    goal_angle += 1.57
+
+    if goal_angle > 3.14:
+        goal_angle -= 6.28
+
+
+    #fix 2nd and 3rd quadrant turn
+    if (curr_angle > 1.57 or curr_angle < -1.52) and (goal_angle > 1.57 or goal_angle < -1.52):
+        if curr_angle < -1.52:
+            curr_angle = curr_angle + 6.28
+        if goal_angle < -1.52:
+            goal_angle = goal_angle + 6.28
+
+    #turning toward goal angle after reaching a waypoint
+    if not (curr_angle > goal_angle - .1 and curr_angle < goal_angle + .1):
+        rospy.loginfo('twist for: ' + str(goal_angle) + ' current: ' + str(curr_angle))
+        if goal_angle - curr_angle > 0:
+            vel.angular.z = .25
+        else:
+            vel.angular.z = -.25
+        vel.linear.x = 0
+        vel.linear.y = 0
+        vel.linear.z = 0
+    else:
+        #if within goal pose
+        if pose_x > goal_x - 1.5 and pose_x < goal_x + 1.5 and pose_y > goal_y - 1.5 and pose_y < goal_y + 1.5 and pose_z > goal_z - .2 and pose_z < goal_z + .2:
+            rospy.logerr('done')
+            vel.linear.x = 0
+            vel.linear.y = 0
+            vel.linear.z = 0
+            vel.angular.z = 0
+            need_to_twist = True
+            if completed + 1 < len(waypoints):
+                completed = completed + 1
+                rospy.loginfo('Next Goal: (' + str(waypoints[completed].x) + ', ' + str(waypoints[completed].y) + ', ' + str(waypoints[completed].z) + ')')
+            else:
+                rospy.logerr('congrats, all clean!!')
+        else:
+            #sink condition
+            if pose_z  > goal_z + .2:
+                vel.linear.z = -speed_factor
+            elif pose_z < goal_z - .2:
+                vel.linear.z = speed_factor
+
+            #calculating linear speeds
+            vel.linear.y = -speed_factor  
+
+    pub.publish(vel)
+
+
+
+
+def urban():
+    global waypoints
+
+    #set up assumptions about coverage and hemisphere distance
+    coverage_height = 3
+
+    rospy.init_node('urban_cleaning', anonymous=True)
+
+    #set up refined grid
+    refined_grid = create_refined_grid_list.tuples_to_points()
+    
+
+    max_north = refined_grid[0]
+    max_east = refined_grid[0]
+    max_south = refined_grid[0]
+    max_west = refined_grid[0]
+    max_up = refined_grid[0]
+
+    #find furthest points NESW & UP from ship
+    for dot in refined_grid:
+        if dot.x < max_west.x:
+            max_west = dot
+        if dot.x > max_east.x:
+            max_east = dot
+        if dot.y > max_north.y:
+            max_north = dot
+        if dot.y < max_south.y:
+            max_south = dot
+        if dot.z > max_up.z:
+            max_up = dot
+
+    #set up hemisphere dimensions
+    radius = 16
+
+    #print(str(length) + "    " + str(height) + "     " + str(width))
+
+    #hemisphere_radius = hemisphere_delta + radius
+
+    #Set up waypoints for four levels
+    for i in range(4):
+        waypoint_z = -76 + coverage_height * i
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 0))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, math.pi / 4))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 3 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, math.pi / 2))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 5 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 3 * math.pi / 4))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 7 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, math.pi))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 9 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 5 * math.pi / 4))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 11 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 3 * math.pi / 2))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 13 * math.pi / 8))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 7 * math.pi / 4))
+        waypoints.append(Point(waypoint_z, 16, center_of_ship_z, 15 * math.pi / 8))
+
+    print('**********')
+    for i in waypoints:
+        i.display_point()
+
+
+    rospy.Subscriber('/rexrov2/dp_controller/reference', TrajectoryPoint, pose_callback)
+
+    rospy.spin()
+    
+
+
+if __name__ == '__main__':
+    try:
+        urban()
+    except rospy.ROSInterruptException:
+        pass

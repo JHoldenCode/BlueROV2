@@ -1,0 +1,4 @@
+<launch>
+        <node pkg="uuv_control_utils" type="find_shipwreck.py" name="find_shipwreck" output="screen">
+        </node>
+</launch>

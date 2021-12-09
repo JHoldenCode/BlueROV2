@@ -1,0 +1,256 @@
+#!/usr/bin/env python
+
+import rospy
+import math
+from point import Point
+from geometry_msgs.msg import Twist
+from uuv_control_msgs.msg import TrajectoryPoint
+
+waypoints = []
+completed = 0
+
+need_to_twist = False
+
+
+#set up refined survey grid
+refined_grid = []
+refined_grid.append(Point(-44.9561106417, -28.7828401458, -75.3214608627))
+refined_grid.append(Point(-41.0302582087, -28.6645731429, -72.0145541991))
+refined_grid.append(Point(-39.6933706407, -28.5961762965, -73.1721067474))
+refined_grid.append(Point(-38.5717044334, -28.5600709435, -74.6738234754))
+refined_grid.append(Point(-37.828907922, -28.6038635043, -76.8205366479))
+refined_grid.append(Point(-46.0930617884, -32.7048834976, -75.2373012373))
+refined_grid.append(Point(-44.4379045163, -33.0175279856, -74.5193871534))
+refined_grid.append(Point(-43.1485376375, -33.2552374232, -73.3189365856))
+refined_grid.append(Point(-41.9777360749, -33.4691602834, -71.8962200197))
+refined_grid.append(Point(-41.1743538973, -33.6728023845, -69.7870717994))
+refined_grid.append(Point(-39.0903931225, -33.9207916266, -69.9883211135))
+refined_grid.append(Point(-41.1488577965, -36.0519921944, -70.525942948))
+refined_grid.append(Point(-37.4058822329, -35.9902942553, -70.931215285))
+refined_grid.append(Point(-36.888046666, -36.0959710511, -73.6438436543))
+refined_grid.append(Point(-37.022327386, -36.1098076502, -74.0891348693))
+refined_grid.append(Point(-35.9904647031, -36.0410967136, -75.6809031817))
+refined_grid.append(Point(-34.9586020203, -35.9723857769, -77.272671494))
+refined_grid.append(Point(-45.1778630018, -42.5698922589, -77.1115499454))
+refined_grid.append(Point(-44.812998535, -42.5036281152, -74.1963130655))
+refined_grid.append(Point(-43.6423916104, -42.5221149836, -72.7234115266))
+refined_grid.append(Point(-42.4717846858, -42.540601852, -71.2505099877))
+refined_grid.append(Point(-37.3034217263, -42.659830449, -75.0201347044))
+refined_grid.append(Point(-41.6369006945, -43.2186987961, -71.9321163637))
+refined_grid.append(Point(-39.2715787533, -43.5205184209, -71.2454552214))
+refined_grid.append(Point(-39.0659510181, -43.5603603291, -71.0763183058))
+refined_grid.append(Point(-37.3611966096, -43.6650348787, -74.6472781868))
+refined_grid.append(Point(-37.4039070004, -43.6672319568, -74.9482261539))
+refined_grid.append(Point(-43.3009307476, -49.5615674333, -77.7083304677))
+refined_grid.append(Point(-42.9045666551, -49.8020456963, -74.8653992484))
+refined_grid.append(Point(-40.347762416, -50.9759765174, -76.1256985128))
+
+pub = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+
+
+
+def pose_callback(pose):
+    global completed
+    global need_to_twist
+
+    #set goal
+    goal_x = waypoints[completed].x
+    goal_y = waypoints[completed].y
+    goal_z = waypoints[completed].z
+
+    #set pose
+    pose_x = pose.pose.position.x
+    pose_y = pose.pose.position.y
+    pose_z = pose.pose.position.z
+
+    vel = Twist()
+    speed_factor = 1
+
+    #set cmd_vels
+    vel.linear.x = 0
+    vel.linear.y = 0
+    vel.linear.z = 0
+    vel.angular.z = 0
+
+    
+
+    t3 = 2.0 * (pose.pose.orientation.w * pose.pose.orientation.z + pose.pose.orientation.x * pose.pose.orientation.y)
+    t4 = 1.0 - 2.0 * (pose.pose.orientation.y * pose.pose.orientation.y + pose.pose.orientation.z * pose.pose.orientation.z)
+    curr_angle = math.atan2(t3, t4)
+    if curr_angle < -.5:
+        curr_angle = curr_angle + 6.28
+
+    x_dist = goal_x - pose_x
+    y_dist = goal_y - pose_y
+
+    
+    #calculate goal angle
+    if goal_x < -39:
+        if goal_y < -35:
+            goal_angle = 0
+        else:
+            goal_angle = 4.71 
+    else:
+        if goal_y < -39:
+            goal_angle = 1.57
+        else:
+            goal_angle = 3.14
+
+    #fix 2nd and 3rd quadrant turn
+    if (curr_angle > 1.57 or curr_angle < -1.52) and (goal_angle > 1.57 or goal_angle < -1.52):
+        if curr_angle < -1.52:
+            curr_angle = curr_angle + 6.28
+        if goal_angle < -1.52:
+            goal_angle = goal_angle + 6.28
+
+    #turning toward goal angle after reaching a waypoint
+    if need_to_twist:
+        rospy.loginfo('twist for: ' + str(goal_angle) + ' current: ' + str(curr_angle))
+        if goal_angle - curr_angle > 0:
+            vel.angular.z = .25
+        else:
+            vel.angular.z = -.25
+        vel.linear.x = 0
+        vel.linear.y = 0
+        vel.linear.z = 0
+        #if within goal angle
+        if curr_angle > goal_angle - .01 and curr_angle < goal_angle + .01:
+            rospy.logerr('done twisting')
+            need_to_twist = False
+            vel.angular.z = 0
+    else:
+        #if within goal pose
+        if pose_x > goal_x - 1.5 and pose_x < goal_x + 1.5 and pose_y > goal_y - 1.5 and pose_y < goal_y + 1.5 and pose_z > goal_z - .2 and pose_z < goal_z + .2:
+            rospy.logerr('done')
+            vel.linear.x = 0
+            vel.linear.y = 0
+            vel.linear.z = 0
+            vel.angular.z = 0
+            need_to_twist = True
+            if completed + 1 < len(waypoints):
+                completed = completed + 1
+                rospy.loginfo('Next Goal: (' + str(waypoints[completed].x) + ', ' + str(waypoints[completed].y) + ', ' + str(waypoints[completed].z) + ')')
+            else:
+                rospy.logerr('congrats, all clean!!')
+        else:
+            #sink condition
+            if pose_z  > goal_z + .2:
+                vel.linear.z = -speed_factor
+            elif pose_z < goal_z - .2:
+                vel.linear.z = speed_factor
+
+            #calculating linear speeds
+            if curr_angle > -.5 and curr_angle < .5:
+                if pose_x < goal_x - 1.5:
+                    vel.linear.x = speed_factor
+                elif pose_x > goal_x + 1.5:
+                    vel.linear.x = -speed_factor
+                else:
+                    vel.linear.x = 0
+                if pose_y < goal_y - 1.5:
+                    vel.linear.y = speed_factor
+                elif pose_y > goal_y + 1.5:
+                    vel.linear.y = -speed_factor
+                else:
+                    vel.linear.y = 0
+            elif curr_angle > .9 and curr_angle < 1.9:
+                if pose_x < goal_x - 1.5:
+                    vel.linear.y = -speed_factor
+                elif pose_x > goal_x + 1.5:
+                    vel.linear.y = speed_factor
+                else:
+                    vel.linear.y = 0
+                if pose_y < goal_y - 1.5:
+                    vel.linear.x = speed_factor
+                elif pose_y > goal_y + 1.5:
+                    vel.linear.x = -speed_factor
+                else:
+                    vel.linear.x = 0
+            elif curr_angle > 2.6 and curr_angle < 3.6:
+                if pose_x < goal_x - 1.5:
+                    vel.linear.x = -speed_factor
+                elif pose_x > goal_x + 1.5:
+                    vel.linear.x = speed_factor
+                else:
+                    vel.linear.x = 0
+                if pose_y < goal_y - 1.5:
+                    vel.linear.y = -speed_factor
+                elif pose_y > goal_y + 1.5:
+                    vel.linear.y = speed_factor
+                else:
+                    vel.linear.y = 0
+            elif curr_angle > 4.2 and curr_angle < 5.2:
+                if pose_x < goal_x - 1.5:
+                    vel.linear.y = speed_factor
+                elif pose_x > goal_x + 1.5:
+                    vel.linear.y = -speed_factor
+                else:
+                    vel.linear.y = 0
+                if pose_y < goal_y - 1.5:
+                    vel.linear.x = -speed_factor
+                elif pose_y > goal_y + 1.5:
+                    vel.linear.x = speed_factor
+                else:
+                    vel.linear.x = 0
+            else:
+                need_to_twist = True    
+
+    pub.publish(vel)
+
+
+
+
+def urban():
+    global waypoints
+
+    center_of_ship_x = -39
+    center_of_ship_y = -39
+    leniency = 3
+
+    rospy.init_node('urban_cleaning', anonymous=True)
+    
+
+    max_north = refined_grid[0]
+    max_east = refined_grid[0]
+    max_south = refined_grid[0]
+    max_west = refined_grid[0]
+
+    #find furthest points NESW from ship
+    for dot in refined_grid:
+        if dot.x < max_west.x:
+            max_west = dot
+        if dot.x > max_east.x:
+            max_east = dot
+        if dot.y > max_north.y:
+            max_north = dot
+        if dot.y < max_south.y:
+            max_south = dot
+    
+
+    #Set up waypoints for four levels
+    for i in range(4):
+        waypoint_z = -70 - 2 * i
+        waypoints.append(Point(max_west.x - leniency, center_of_ship_y, waypoint_z))
+        waypoints.append(Point(max_west.x - leniency, max_south.y - leniency, waypoint_z))
+        waypoints.append(Point(max_east.x + leniency, max_south.y - leniency, waypoint_z))
+        waypoints.append(Point(max_east.x + leniency, max_north.y + leniency, waypoint_z))
+        waypoints.append(Point(max_west.x - leniency, max_north.y + leniency, waypoint_z))
+        waypoints.append(Point(max_west.x - leniency, center_of_ship_y, waypoint_z))
+
+
+    print('**********')
+    for i in waypoints:
+        i.display_point()
+
+
+    rospy.Subscriber('/rexrov2/dp_controller/reference', TrajectoryPoint, pose_callback)
+
+    rospy.spin()
+    
+
+
+if __name__ == '__main__':
+    try:
+        urban()
+    except rospy.ROSInterruptException:
+        pass

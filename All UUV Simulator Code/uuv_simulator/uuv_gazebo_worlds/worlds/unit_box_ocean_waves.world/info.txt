@@ -1,0 +1,1 @@
+This world is used when having the rexrov replicate its methods for determining waypoints, and then traversing those waypoints on another object besides the sunken ship. The purpose of this is to show that the algorithms can generally apply to any object.

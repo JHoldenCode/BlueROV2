@@ -1,0 +1,1 @@
+This program uses my own waypoint system to construct a path around the ship in the shape of a hemisphere to clean it. It constantly twists to always face the center of the ship.

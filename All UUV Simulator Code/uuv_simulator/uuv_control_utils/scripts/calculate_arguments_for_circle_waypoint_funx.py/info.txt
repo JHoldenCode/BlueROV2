@@ -1,0 +1,1 @@
+This program takes the file of points that represent the ship (obtained from survey_grid), calculates the dimensions of the ship, and then finds its center and the desired radius of a cylindrical path around the ship. The output of this program is the input of calculating_waypoints_for_cylinder.py

@@ -1,0 +1,20 @@
+disturbances:
+  -
+    type: current
+    starting_time: 0
+    velocity: 0
+    horizontal_angle: 0
+    vertical_angle: 0
+    duration: -1
+  -
+    type: wrench
+    starting_time: 0
+    duration: -1
+    force:
+      - 0
+      - 0
+      - 0
+    torque:
+      - 0
+      - 0
+      - 0

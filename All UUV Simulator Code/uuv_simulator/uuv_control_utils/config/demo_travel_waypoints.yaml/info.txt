@@ -1,0 +1,1 @@
+These are the waypoints used in the Travel, Search, Clean program. They are manually set just to get the rexrov in the right location to begin its search of the sunken ship.

@@ -1,0 +1,1 @@
+This program just uses a formula to find 16 points around a circle with the given center and radius. The output of this program is the points used for urban_cylinder_cleaning.

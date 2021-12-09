@@ -1,0 +1,55 @@
+#!/usr/bin/env python
+
+import rospy
+from sensor_msgs.msg import Range
+from geometry_msgs.msg import Twist
+
+def callback3(distance):
+    pub3 = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
+    if distance.range > 6.0:
+        vel.linear.z = -1
+    pub3.publish(vel)
+
+
+def callback0(distance):
+    pub3 = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
+    if distance.range > 6.0:
+        vel.linear.z = -1
+    pub3.publish(vel)
+
+
+def callback1(distance):
+    pub3 = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
+    if distance.range > 6.0:
+        vel.linear.z = -1
+    pub3.publish(vel)
+
+
+def callback2(distance):
+    pub3 = rospy.Publisher('/rexrov2/cmd_vel', Twist, queue_size=10)
+    vel = Twist()
+    if distance.range > 6.0:
+        vel.linear.z = -1
+    pub3.publish(vel)
+        
+
+
+def sink():
+    rospy.init_node('sink', anonymous=True)
+
+    rospy.Subscriber("/rexrov2/dvl_sonar3", Range, callback3)
+    rospy.Subscriber("/rexrov2/dvl_sonar0", Range, callback0)
+    rospy.Subscriber("/rexrov2/dvl_sonar1", Range, callback1)
+    rospy.Subscriber("/rexrov2/dvl_sonar2", Range, callback2)
+
+    rospy.spin()
+
+
+if __name__ == '__main__':
+    try:
+        sink()
+    except rospy.ROSInterruptException:
+        pass

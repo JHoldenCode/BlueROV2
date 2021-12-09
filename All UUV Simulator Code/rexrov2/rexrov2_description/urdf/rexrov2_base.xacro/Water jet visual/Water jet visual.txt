@@ -1,0 +1,10 @@
+<xacro:property name="water_jet_mesh_file" value="file://$(find rexrov2_description)/meshes/pulley.dae"/>
+
+
+<!--Water jet visual--> 
+      <visual>
+        <origin xyz="0.5 0 0" rpy="1.57 0 1.57" /> 
+        <geometry>
+            <mesh filename="${water_jet_mesh_file}" scale="3 3 15"/>
+        </geometry>
+      </visual>

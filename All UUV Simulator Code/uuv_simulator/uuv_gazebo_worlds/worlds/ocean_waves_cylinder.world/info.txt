@@ -1,0 +1,1 @@
+This world is used for the original waypoint demo. All it has in it is a tall cylinder on the seafloor. It is modeled off of ocean_waves because it has clear water.

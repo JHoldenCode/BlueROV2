@@ -1,0 +1,1 @@
+These waypoint files are from the first demo I made. They are manually set and make the rexrov travel from its starting location up to a cylinder, and once it has sunk to the sea floor, the second waypoint file makes it travel in a square around the cylinder.

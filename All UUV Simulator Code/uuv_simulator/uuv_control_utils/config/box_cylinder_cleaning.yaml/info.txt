@@ -1,0 +1,1 @@
+These are the waypoints for the cylinder cleaning of the box. It uses the same method for determining the points as the sunken ship cylinder cleaning.

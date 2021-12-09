@@ -1,0 +1,6 @@
+This folder contains all the .yaml files that the waypoint service reads from. There is no limit to the amount of waypoints that you can add (that I have found) and my waypoint files have 4 fields:
+
+point
+max_forward_speed
+heading - the desired orientation of the robot during travel
+use_fixed_heading

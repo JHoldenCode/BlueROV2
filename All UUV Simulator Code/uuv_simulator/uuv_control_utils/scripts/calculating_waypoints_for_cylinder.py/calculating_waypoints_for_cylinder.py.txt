@@ -1,0 +1,14 @@
+#!/usr/bin/env python
+
+import math
+
+def calculate_point(circle_center_x, circle_center_y, radius, waypoints_per_circle):
+    for i in range(0, waypoints_per_circle + 1):
+        x = radius * math.cos(math.pi / (waypoints_per_circle / 2) * i) + circle_center_x
+        y = radius * math.sin(math.pi / (waypoints_per_circle / 2) * i) + circle_center_y
+        print(str(x) + ", " + str(y))
+
+
+
+
+calculate_point(-40, -39, 16, 16)

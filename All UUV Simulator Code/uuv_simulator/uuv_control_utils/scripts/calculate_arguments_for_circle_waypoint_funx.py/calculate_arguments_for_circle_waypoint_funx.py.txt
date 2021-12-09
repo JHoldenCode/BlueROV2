@@ -1,0 +1,45 @@
+#!/usr/bin/env python
+
+from point import Point
+import create_refined_grid_list
+
+#constants
+sea_floor = -78
+radius_leniency = -6.5
+
+#set up refined grid
+refined_grid = create_refined_grid_list.tuples_to_points()
+
+max_north = refined_grid[0]
+max_east = refined_grid[0]
+max_south = refined_grid[0]
+max_west = refined_grid[0]
+max_up = refined_grid[0]
+
+#find furthest points NESW & UP from ship
+for dot in refined_grid:
+    if dot.x < max_west.x:
+        max_west = dot
+    if dot.x > max_east.x:
+        max_east = dot
+    if dot.y > max_north.y:
+        max_north = dot
+    if dot.y < max_south.y:
+        max_south = dot
+    if dot.z > max_up.z:
+        max_up = dot
+
+#find longest dimension
+width = max_east.x - max_west.x
+length = max_north.y - max_south.y
+height = max_up.z - sea_floor
+dimensions = [width, length, height]
+longest_dimension = max(dimensions)
+
+#find the arguments
+center_of_ship_x = (max_east.x + max_west.x) / 2
+center_of_ship_y = (max_north.y + max_south.y) / 2
+radius = longest_dimension + radius_leniency
+
+print('Center of Ship: (' + str(center_of_ship_x) + ', ' + str(center_of_ship_y) + ')')
+print('Radius of Circle Trajectory: ' + str(radius))
